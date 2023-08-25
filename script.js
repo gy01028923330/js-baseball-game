@@ -1,3 +1,8 @@
+let answer = [];
+let attempts = 0;
+const maxAttempts = 15;
+let history = [];
+
 //0~9까지 숫자중 중복되지 않는 3가지 숫자를 만드는 함수
 function generateAnswer() {
   const numbers = [];
@@ -58,3 +63,62 @@ function checkGuess(guess) {
 // '콜드게임'이라고 표시하고 프로그램의 숫자를 표시하고 플레이어의 패배로
 //  게임이 종료한다. 만약 게임이 종료된다면 플레이어의 입력창을 제거하고 스타트버튼을
 // 표시한다.
+function makeGuess() {
+  //넘버인풋을 게스인풋에 할당한다.
+  const guessInput = document.getElementById("numberInput");
+  //게스인풋 밸류를 게스밸류에 할당한다.
+  const guessValue = guessInput.value;
+  //게스밸류의 값을 각각 하나씩 나누고 숫자타입으로 바꾼것을 게스에
+  //할당한다.
+  const guess = guessValue.split("").map(Number);
+
+  //게스를 콘솔에 나타낸다
+  console.log(guess);
+  //게스밸류의 길이를 콘솔에 나타낸다
+  console.log(guessValue.length);
+
+  //만약 게스밸류의 길이가 3보다 작다면
+  if (guessValue.length < 3) {
+    //경고문구를 띄운다
+    alert("3개의 숫자를 입력하세요.");
+    //함수탈출
+    return;
+  }
+
+  //checkGuess함수를 guess를 인수로 넣어서 호출 한 것을 리설트에
+  //할당한다.
+  const result = checkGuess(guess);
+
+  //시도횟수를 1더한다
+  attempts++;
+  //게스에 플레이어가 입력한 값을 나눈것을 할당하고 리설트에
+  //프로그램이 판단한 스트라이크와 볼의 수를 할당한 것을 히스토리에
+  //푸쉬한다
+  history.push({ guess: guess, result: result });
+
+  //만약 리설트의 스트라이크가 3과 완전히 일치한다면
+  if (result.strikes === 3) {
+    //html의 리설트를 승리문구로 할당한다
+    document.getElementById("result").innerHTML = "승리! 축하합니다!";
+    //html의 입력창을 없앤다
+    document.getElementById("gameContainer").style.display = "none";
+    //html의 시작버튼을 화면에 띄운다
+    document.getElementById("gameStartContainer").style.display = "block";
+    //만약 시도횟수가 최대시도횟수랑 완전히 일치한다면
+  } else if (attempts === maxAttempts) {
+    //html의 리설트를 패배문구로 할당한다
+    document.getElementById("result").innerHTML =
+      "패배! 정답은 " + answer.join("") + "입니다.";
+    //html의 시작버튼을 화면에 띄운다
+    document.getElementById("gameStartContainer").style.display = "block";
+  } else {
+    //패배가 아니면 리설트를 프로그램이 판단한 스트라이크와 볼의 수로
+    //할당한다
+    document.getElementById(
+      "result"
+    ).innerHTML = `${result.strikes} 스트라이크 ${result.balls}
+    볼<br>(${attempts}/${maxAttempts} 턴)`;
+  }
+  //updateHistory();
+  guessValue = "";
+}
