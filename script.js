@@ -43,7 +43,7 @@ function checkGuess(guess) {
   //스트라이크와 볼을 판별해서 result의 값에 표시한다.
   for (let i = 0; i < guess.length; i++) {
     //만약 게스의 i와 엔서의i가 완전히 일치한다면
-    if (guess[i] === amswer[i]) {
+    if (guess[i] === answer[i]) {
       //리설트의 스트라이크 값을 1더한다.
       result.strikes++;
       //만약 게스의i가 엔서에 포한된다면
@@ -120,7 +120,7 @@ function makeGuess() {
     볼<br>(${attempts}/${maxAttempts} 턴)`;
   }
   updateHistory();
-  guessValue = "";
+  guessInput.value = "";
 }
 
 function updateHistory() {
