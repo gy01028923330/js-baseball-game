@@ -109,6 +109,8 @@ function makeGuess() {
     //html의 리설트를 패배문구로 할당한다
     document.getElementById("result").innerHTML =
       "패배! 정답은 " + answer.join("") + "입니다.";
+    //html의 입력창을 없앤다
+    document.getElementById("gameContainer").style.display = "none";
     //html의 시작버튼을 화면에 띄운다
     document.getElementById("gameStartContainer").style.display = "block";
   } else {
@@ -140,5 +142,19 @@ function updateHistory() {
     roundInfo.textContent = `${guessStr} - ${resultStr}`;
     //라운드인포를 html의 히스토리에 넣는다
     historyDiv.appendChild(roundInfo);
+  }
+}
+
+function handleInput() {
+  const inputElement = document.getElementById("numberInput");
+  const inputValue = inputElement.value;
+
+  const digits = inputValue.split("").map(Number);
+  const uniqueDigits = [...new Set(digits)];
+
+  if (digits.length !== uniqueDigits.length) {
+    const filteredDigits = uniqueDigits.join("");
+    alert("중복된 숫자는 입력이 불가합니다.");
+    inputElement.value = filteredDigits;
   }
 }
