@@ -119,6 +119,26 @@ function makeGuess() {
     ).innerHTML = `${result.strikes} 스트라이크 ${result.balls}
     볼<br>(${attempts}/${maxAttempts} 턴)`;
   }
-  //updateHistory();
+  updateHistory();
   guessValue = "";
+}
+
+function updateHistory() {
+  //html의 히스토리를 히스토리div에 할당한다
+  const historyDiv = document.getElementById("history");
+  //히스토리div에 h3기록을 추가한다
+  historyDiv.innerHTML = "<h3>기록</h3>";
+  //히스토리 배열을 라운드에 할당한 반복문
+  for (const round of history) {
+    //라운드의 게스값을 ", "을 붙여 게스Str에 할당한다
+    const guessStr = round.guess.join(", ");
+    //스트라이크, 볼의 결과값을 리설트Str에 할당한다
+    const resultStr = `${round.result.strikes} 스트라이크 ${round.result.balls} 볼`;
+    //p태그를 라운드Info에 할당한다
+    const roundInfo = document.createElement("p");
+    //p태그에 게스스트링과 리설트스트링을 넣는다
+    roundInfo.textContent = `${guessStr} - ${resultStr}`;
+    //라운드인포를 html의 히스토리에 넣는다
+    historyDiv.appendChild(roundInfo);
+  }
 }
